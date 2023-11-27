@@ -6,3 +6,31 @@
     "Segoe UI", system-ui, Roboto, Oxygen-Sans, Ubuntu, Cantarell,
     "Helvetica Neue", sans-serif;
 }
+
+
+.align-left{
+    text-align: left;
+}
+
+.header{
+    background: #FAFAFA;
+    padding: 10px;
+    border-bottom: 1px solid gray;
+}
+
+.add-anime-manual{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.add-anime-input-container {
+    display: flex;
+    border-bottom: 2px #FAFAFA solid;
+    flex-direction: column;
+}
+
+.anime{
+    display: grid;
+    grid-template-columns: 75% 25%;
+}

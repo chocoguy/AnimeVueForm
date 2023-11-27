@@ -1,27 +1,31 @@
 <template>
-    <n-dialog-provider>
-    <div class="home">
-        <Navbar />
-        <p>Home</p>
-        <p>Under Construction</p>
-        <n-data-table
-            :columns="animeGridColumns"
-            :data="currentAnime"
-            :pagination="false"
-            :bordered="true"
-        />  
-        <n-button @click="initAnimeAdd">Add Anime</n-button>
-        <!--grid-->
-    </div>
-    </n-dialog-provider>
+    <n-space vertical size="large">
+        <n-layout has-sider>
+            <n-layout-sider>
+                <Navbar />
+            </n-layout-sider>
+            <n-layout-content>
+                <div class="home">
+                    <p>Home</p>
+                    <p>Under Construction</p>
+                    <n-data-table :columns="animeGridColumns" :data="currentAnime" :pagination="false" :bordered="true" />
+                    <n-dropdown trigger="hover" :options="addAnimeDropdownOptions" @select="addAnime">
+                        <n-button @click="addAnime(99)">Add</n-button>
+                    </n-dropdown>
+                    <!--grid-->
+                </div>
+            </n-layout-content>
+        </n-layout>
+    </n-space>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { NButton, NDataTable, DataTableColumn, useMessage, useDialog, NDialogProvider} from 'naive-ui';
+import { NButton, NDataTable, DataTableColumn, useMessage, NDropdown, NSpace, NLayout, NLayoutSider, NLayoutContent, NLayoutHeader} from 'naive-ui';
 import Navbar from '../components/Navbar.vue';
 import { Anime } from '../data/Anime.types';
 import { IndexDbService } from '../data/IndexDbService';
+
 
 
 export default defineComponent({
@@ -29,7 +33,8 @@ export default defineComponent({
     data(){
         return {
             currentAnime: [] as Anime[],
-            animeGridColumns: [] as DataTableColumn[]
+            animeGridColumns: [] as DataTableColumn[],
+            addAnimeDropdownOptions: [] as any[]
         }
     },
     created() {
@@ -47,28 +52,15 @@ export default defineComponent({
                 title: "Year",
                 key: "Year"
             }
-        ]
+        ],
 
-    },
-    setup(){
-            //const message = useMessage();
-            const dialog = useDialog();
-            return {
-                initAnimeAdd(){
-            dialog.warning({
-                title: "Add Anime",
-                content: "How would you like to add an anime?",
-                positiveText: "Search MAL",
-                negativeText: "Manual Entry",
-                onPositiveClick: () => {
-                    console.log("MAL")
-                },
-                onNegativeClick: () => {
-                    console.log("Manual")
+        this.addAnimeDropdownOptions = [
+                {
+                    label: "Add manually",
+                    key: 1
                 }
-            })
-        }
-            }
+            ]
+
     },
     methods: {
         async getAnime() {
@@ -78,14 +70,26 @@ export default defineComponent({
             // console.log('get anime')
             // console.log(newAnime)
         },
+
+        async addAnime(key: number) {
+            if(key == 1){
+                this.$router.push('/add-anime-manual');
+            }else{            
+            this.$router.push('/add-anime');
+            }
+        }
     },
     components: {
         NButton,
         NDataTable,
         useMessage,
-        useDialog,
-        NDialogProvider,
-        Navbar
+        Navbar,
+        NDropdown,
+        NLayout,
+        NLayoutSider,
+        NSpace,
+        NLayoutContent,
+        NLayoutHeader
     },
 })
 

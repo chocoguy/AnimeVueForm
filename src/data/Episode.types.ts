@@ -1,6 +1,6 @@
 export type Episode = {
-    Id: String,
-    AnimeId: String,
+    Id: string,
+    AnimeId: string,
     Episode: number,
-    WatchStatus: String
+    WatchStatus: string
 }

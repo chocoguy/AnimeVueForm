@@ -2,6 +2,7 @@ import { openDB } from 'idb';
 import { Anime } from './Anime.types';
 import { Episode } from './Episode.types';
 import { Schedule } from './Schedule.types';
+import { AnimeSmall } from './AnimeSmall.types';
 
 export class IndexDbService {
 
@@ -10,7 +11,7 @@ export class IndexDbService {
             upgrade(db) {
                 if(!db.objectStoreNames.contains('anime')) {
                     const animeStore = db.createObjectStore('anime', { keyPath: 'Id' });
-                    animeStore.createIndex('IdMal', 'IdMal', { unique: true });
+                    animeStore.createIndex('IdMal', 'IdMal', { unique: false });
                     animeStore.createIndex('Title', 'Title', { unique: false });
                     animeStore.createIndex("PosterLink", "PosterLink", { unique: false });
                     animeStore.createIndex("Start", "Start", { unique: false });
@@ -128,7 +129,8 @@ export class IndexDbService {
         const store = tx.objectStore('episode');
         const episodes = await store.getAll();
         await tx.done;
-        return episodes.filter(episode => episode.AnimeId == animeId);
+        episodes.filter(episode => episode.AnimeId == animeId);
+        return episodes.sort((a, b) => a.Episode = b.Episode)
     }
 
 

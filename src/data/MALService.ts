@@ -3,7 +3,7 @@ import { Anime } from './Anime.types';
 
 
 //REMOVE BEFORE COMMIT
-var client_id: string = ""
+var client_id: string = "";
 //REMOVE BEFORE COMMIT
 
 const MALService = axios.create({
